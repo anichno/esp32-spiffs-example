@@ -1,0 +1,33 @@
+cargo-features = ["strip"]
+
+[package]
+name = "esp32-spiffs"
+version = "0.1.0"
+authors = ["Anthony Canino <git@anthonycanino.com>"]
+edition = "2021"
+
+[profile.release]
+opt-level = "s"
+debug = false
+panic = "abort"
+strip = true
+lto = true
+codegen-units = 1
+
+[profile.dev]
+debug = true # Symbols are nice and they don't increase the size on Flash
+opt-level = "z"
+
+[features]
+native = ["esp-idf-sys/native"]
+default = ["esp-idf-sys/native"]
+
+[dependencies]
+# esp-idf-sys = { version = "^0.30", features = ["binstart"] }
+esp-idf-sys = { path = "./libs/esp-idf-sys", features = ["binstart"] }
+anyhow = "^1"
+
+
+[build-dependencies]
+embuild = "^0.28"
+anyhow = "^1"
